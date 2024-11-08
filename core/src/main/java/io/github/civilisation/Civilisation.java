@@ -2,7 +2,7 @@ package io.github.civilisation;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Civilisation {
+public class Civilisation extends Game{
     protected String name;
     protected int level;
     protected int xp;
