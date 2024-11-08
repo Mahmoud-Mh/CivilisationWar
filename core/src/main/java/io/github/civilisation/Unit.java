@@ -38,6 +38,14 @@ public class Unit {
         }
     }
 
+
+    public int getAttackdmg() {
+        return attackdmg;
+    }
+
+    public int getHealth() {
+        return health;
+    }
 }
 
 
