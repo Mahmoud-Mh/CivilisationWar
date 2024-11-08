@@ -14,6 +14,7 @@ public class Civilisation extends Game{
     protected Unit specialUnit;
     protected List<Turret> turrets;
     protected int turretSlots;
+    protected int hpBase;
 
     public Civilisation(String name) {
         this.name = name;
@@ -26,15 +27,23 @@ public class Civilisation extends Game{
         this.turretSlots = 1;
     }
 
+
     public void deployUnits(){
 
     }
-
     public void useUniqueAbility(){
 
     }
 
     public void levelUp(){
+        if(this.xp>=xpRequired){
+            this.level +=1;
+            this.turretSlots+=1;
+            this.hpBase += 2000;
+
+        } else if(this.level== 3) {
+            this.hpBase +=4000;
+        }
 
     }
 
