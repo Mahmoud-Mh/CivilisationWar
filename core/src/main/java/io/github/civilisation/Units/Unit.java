@@ -6,7 +6,6 @@ public abstract class Unit {
     protected int attackdamage;
     protected UnitType unitType;
     protected String name;
-    protected int xp;
 
     public enum UnitType {
         MELEE(50),
@@ -31,39 +30,25 @@ public abstract class Unit {
         this.attackdamage = attackdamage;
         this.unitType = unitType;
         this.cost = unitType.getCost();
-        this.xp = 0;
     }
 
     public void attack(Unit target) {
         if (target != null && target.isAlive()) {
             target.takeDamage(attackdamage);
-            gainXp(10);
+        } else {
+            System.out.println(target.getName() + " est déjà mort.");
         }
     }
 
     public void takeDamage(int damage) {
         health -= damage;
         if (health < 0) health = 0;
-
+        System.out.println(name + " reçoit " + damage + " dégâts. Santé restante : " + health);
     }
 
     public void heal(int amount) {
         health += amount;
-
-    }
-
-    private void gainXp(int amount) {
-        xp += amount;
-        if (xp >= 100) {
-            levelUp();
-            xp = 0;
-        }
-    }
-
-    private void levelUp() {
-        attackdamage += 5;
-        health += 10;
-
+        System.out.println(name + " est soigné de " + amount + " points. Santé actuelle : " + health);
     }
 
     public boolean isAlive() {
