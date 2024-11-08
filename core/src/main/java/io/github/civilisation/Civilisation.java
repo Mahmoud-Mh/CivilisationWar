@@ -73,4 +73,16 @@ public class Civilisation extends Game{
     public void addUnit(Unit unit) {
         units.add(unit);
     }
+
+    public Turret buyTurret(String turretName, int attack, int cost) {
+        if (gold >= cost && turrets.size() < turretSlots) {
+            Turret turret = new Turret(turretName, attack, cost);
+            turrets.add(turret);
+            gold -= cost;
+            return turret;
+        } else {
+            System.out.println("Not enough gold or turret slots available.");
+            return null;
+        }
+    }
 }
