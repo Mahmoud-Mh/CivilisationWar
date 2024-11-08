@@ -20,9 +20,9 @@ public class Main extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         knightTexture = new Texture("pictures/Knight/Knight_1/Walk.png");
-        TextureRegion[][] tmpFrames = TextureRegion.split(knightTexture, 73, knightTexture.getHeight());
-        TextureRegion[] walkFrames = new TextureRegion[5];
-        for (int i = 0; i < 5; i++) {
+        TextureRegion[][] tmpFrames = TextureRegion.split(knightTexture, 72, knightTexture.getHeight());
+        TextureRegion[] walkFrames = new TextureRegion[7];
+        for (int i = 0; i < 7; i++) {
             walkFrames[i] = tmpFrames[0][i];
         }
         walkAnimation = new Animation<>(0.1f, walkFrames);
@@ -30,6 +30,7 @@ public class Main extends ApplicationAdapter {
         elapsedTime = 0f;
         knightX = 140;
     }
+
 
     @Override
     public void render() {
