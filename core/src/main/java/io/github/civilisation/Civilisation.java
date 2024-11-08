@@ -39,10 +39,13 @@ public class Civilisation extends Game{
             Unit unit =
         }
     }
-    public void useUniqueAbility(){
-
-
-    }
+    public void useUniqueAbility(List<Unit> enemyUnits) {
+        for (Unit enemy : enemyUnits) {
+            if (enemy.isAlive()) {
+                enemy.health -= 500;
+                }
+            }
+        }
 
     public void levelUp(){
         if(this.xp>=xpRequired){
@@ -57,6 +60,7 @@ public class Civilisation extends Game{
     }
 
     public void buyUnit(String unitType){
+
     }
 
     public String getName() {
@@ -71,5 +75,17 @@ public class Civilisation extends Game{
 
     public void addUnit(Unit unit) {
         units.add(unit);
+    }
+
+    public Turret buyTurret(String turretName, int attack, int cost) {
+        if (gold >= cost && turrets.size() < turretSlots) {
+            Turret turret = new Turret(turretName, attack, cost);
+            turrets.add(turret);
+            gold -= cost;
+            return turret;
+        } else {
+            System.out.println("Not enough gold or turret slots available.");
+            return null;
+        }
     }
 }
