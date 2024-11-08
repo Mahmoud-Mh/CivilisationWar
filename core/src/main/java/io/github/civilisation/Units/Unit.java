@@ -1,33 +1,19 @@
-package io.github.civilisation;
+package io.github.civilisation.Units;
 
-public class Unit {
-    protected String name;
+public abstract class Unit {
     protected int health;
     protected int attackdmg;
+    protected String type;
+    protected int cost;
 
 
-    public Unit(String name, int health, int attackdmg) {
-        this.name = name;
+    public Unit( int health, int attackdmg,String type, int cost) {
         this.health = health;
         this.attackdmg = attackdmg;
+        this.type = type;
+        this.cost = cost;
     }
 
-    public enum UnitType {
-        MELEE(50),
-        RANGED(75),
-        TANK(100),
-        SPECIAL(200);
-
-        private final int cost;
-
-        UnitType(int cost) {
-            this.cost = cost;
-        }
-
-        public int getCost() {
-            return cost;
-        }
-    }
 
     public void attack(Unit target){
         if(target != null && target.health>0){
