@@ -35,11 +35,11 @@ public class Civilisation extends Game{
     }
 
     public void deployUnits(Class<? extends Unit> unitClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
+        Unit unit = unitClass.getDeclaredConstructor().newInstance();
         int cost = unit.getCost();
         if (gold >= cost) {
-            Unit unit = unitClass.getDeclaredConstructor().newInstance();
-            units.add(unit);
+            Unit unit1 = unitClass.getDeclaredConstructor().newInstance();
+            units.add(unit1);
             gold -= cost;
         }
     }
