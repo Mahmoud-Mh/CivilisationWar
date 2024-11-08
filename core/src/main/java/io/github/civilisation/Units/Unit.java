@@ -2,7 +2,7 @@ package io.github.civilisation.Units;
 
 public abstract class Unit {
     protected int cost;
-    protected int health;
+    public int health;
     protected int attackdamage;
     protected UnitType unitType;
 

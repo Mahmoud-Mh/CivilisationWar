@@ -36,10 +36,13 @@ public class Civilisation extends Game{
     public void deployUnits(){
 
     }
-    public void useUniqueAbility(){
-
-
-    }
+    public void useUniqueAbility(List<Unit> enemyUnits) {
+        for (Unit enemy : enemyUnits) {
+            if (enemy.isAlive()) {
+                enemy.health -= 500;
+                }
+            }
+        }
 
     public void levelUp(){
         if(this.xp>=xpRequired){
