@@ -43,12 +43,11 @@ public abstract class Unit {
     public void takeDamage(int damage) {
         health -= damage;
         if (health < 0) health = 0;
-        System.out.println(name + " reçoit " + damage + " dégâts. Santé restante : " + health);
+
     }
 
     public void heal(int amount) {
         health += amount;
-        System.out.println(name + " est soigné de " + amount + " points. Santé actuelle : " + health);
     }
 
     public boolean isAlive() {
