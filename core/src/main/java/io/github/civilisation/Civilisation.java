@@ -1,6 +1,7 @@
 package io.github.civilisation;
 import io.github.civilisation.Units.Unit;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,12 +34,14 @@ public class Civilisation extends Game{
         }
     }
 
-    public void deployUnits(Unit  unit){
+    public void deployUnits(Class<? extends Unit> unitClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Unit unit = unitClass.getDeclaredConstructor().newInstance();
         int cost = unit.getCost();
-        if(gold >= cost){
-            Unit unit =
-        }
+        if (gold >= cost) {
+            units.add(unit);
+            gold -= cost;
     }
+
     public void useUniqueAbility(List<Unit> enemyUnits) {
         for (Unit enemy : enemyUnits) {
             if (enemy.isAlive()) {
