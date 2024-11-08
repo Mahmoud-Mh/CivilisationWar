@@ -27,6 +27,11 @@ public class Civilisation extends Game{
         this.turretSlots = 1;
     }
 
+    public void AddGold(int amount) {
+        if (amount>0){
+            this.gold += amount;
+        }
+    }
 
     public void deployUnits(Unit  unit){
         int cost = unit.getCost();
@@ -35,6 +40,7 @@ public class Civilisation extends Game{
         }
     }
     public void useUniqueAbility(){
+
 
     }
 
