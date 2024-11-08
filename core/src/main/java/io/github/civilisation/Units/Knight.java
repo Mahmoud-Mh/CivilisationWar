@@ -1,8 +1,8 @@
 package io.github.civilisation.Units;
 
-public class Knight extends Unit{
+public class Knight extends Unit {
 
-    public Knight(int health, int attackdmg, String type, int cost) {
-        super(100, 25, "mélée" , 20);
+    public Knight(int health, int attackdamage) {
+        super(health, attackdamage, UnitType.MELEE);
     }
 }
