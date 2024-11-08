@@ -5,7 +5,6 @@ public abstract class Unit {
     public int health;
     protected int attackdamage;
     protected UnitType unitType;
-    protected String name;
 
     public enum UnitType {
         MELEE(50),
@@ -24,8 +23,7 @@ public abstract class Unit {
         }
     }
 
-    public Unit(String name, int health, int attackdamage, UnitType unitType) {
-        this.name = name;
+    public Unit( int health, int attackdamage, UnitType unitType) {
         this.health = health;
         this.attackdamage = attackdamage;
         this.unitType = unitType;
@@ -35,8 +33,6 @@ public abstract class Unit {
     public void attack(Unit target) {
         if (target != null && target.isAlive()) {
             target.takeDamage(attackdamage);
-        } else {
-            System.out.println(target.getName() + " est déjà mort.");
         }
     }
 
@@ -66,7 +62,5 @@ public abstract class Unit {
         return cost;
     }
 
-    public String getName() {
-        return name;
-    }
+
 }
