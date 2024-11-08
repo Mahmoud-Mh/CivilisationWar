@@ -28,8 +28,11 @@ public class Civilisation extends Game{
     }
 
 
-    public void deployUnits(){
-
+    public void deployUnits(Unit  unit){
+        int cost = unit.getCost();
+        if(gold >= cost){
+            Unit unit =
+        }
     }
     public void useUniqueAbility(){
 
@@ -48,7 +51,6 @@ public class Civilisation extends Game{
     }
 
     public void buyUnit(String unitType){
-
     }
 
     public String getName() {
