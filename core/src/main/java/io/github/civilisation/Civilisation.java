@@ -76,7 +76,9 @@ public class Civilisation extends Game{
         return gold;
     }
 
-
+    public int getLevel() {
+        return level;
+    }
 
     public void addUnit(Unit unit) {
         units.add(unit);
