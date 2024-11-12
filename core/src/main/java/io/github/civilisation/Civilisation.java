@@ -57,7 +57,16 @@ public class Civilisation extends Game{
 
     }
 
-    public void buyUnit(String unitType){
+    public Unit buyUnit(String unitType, int cost){
+        if(gold >= cost){
+            Unit unit = new Unit();
+            units.add(unit);
+            gold -= cost;
+            return unit;
+        } else{
+            System.out.println("Not enough gold.");
+            return null;
+        }
 
     }
 
