@@ -4,6 +4,9 @@ import io.github.civilisation.Units.Unit;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ArrayList;
+import io.github.civilisation.Units.Knight;
+import io.github.civilisation.Units.*;
+
 
 public class Civilisation extends Game{
     protected String name;
@@ -59,7 +62,9 @@ public class Civilisation extends Game{
 
     public Unit buyUnit(String unitType, int cost){
         if(gold >= cost){
-            Unit unit = new Unit();
+            Unit unit = new Knight(100, 10);
+
+
             units.add(unit);
             gold -= cost;
             return unit;
