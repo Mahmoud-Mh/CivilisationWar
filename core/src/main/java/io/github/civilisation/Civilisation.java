@@ -1,14 +1,13 @@
 package io.github.civilisation;
-import io.github.civilisation.Units.Unit;
 
-import java.lang.reflect.InvocationTargetException;
+import io.github.civilisation.Units.Unit;
+import io.github.civilisation.Units.Knight;
+import io.github.civilisation.Units.UnitFactory;
+
 import java.util.List;
 import java.util.ArrayList;
-import io.github.civilisation.Units.Knight;
-import io.github.civilisation.Units.*;
 
-
-public class Civilisation extends Game{
+public class Civilisation extends GameWorld {
     protected String name;
     protected int level;
     protected int xp;
@@ -29,50 +28,67 @@ public class Civilisation extends Game{
         this.units = new ArrayList<>();
         this.turrets = new ArrayList<>();
         this.turretSlots = 1;
+        this.hpBase = 5000; // Initial base health
     }
 
-    public void AddGold(int amount) {
-        if (amount>0){
+    public void addGold(int amount) {
+        if (amount > 0) {
             this.gold += amount;
         }
     }
 
-    public void deployUnits(){
+    public void deployUnits() {
+        // Placeholder for deploying units logic
     }
 
     public void useUniqueAbility(List<Unit> enemyUnits) {
         for (Unit enemy : enemyUnits) {
             if (enemy.isAlive()) {
-                enemy.health -= 500;
-                }
+                enemy.takeDamage(500);
             }
         }
-
-    public void levelUp(){
-        if(this.xp>=xpRequired){
-            this.level +=1;
-            this.turretSlots+=1;
-            this.hpBase += 2000;
-
-        } else if(this.level== 3) {
-            this.hpBase +=4000;
-        }
-
     }
 
-    public Unit buyUnit(String unitType, int cost){
-        if(gold >= cost){
-            Unit unit = new Knight(100, 10);
+    public void levelUp() {
+        if (this.xp >= this.xpRequired) {
+            this.level += 1;
+            this.turretSlots += 1;
+            this.hpBase += 2000;
+            this.xp = 0; // Reset XP after leveling up
+            this.xpRequired += 2000; // Increase XP required for next level
+        }
+        if (this.level == 3) {
+            this.hpBase += 4000; // Additional bonus at level 3
+        }
+    }
 
-
-            units.add(unit);
-            gold -= cost;
-            return unit;
-        } else{
+    public Unit buyUnit(String unitType, int cost) {
+        if (gold >= cost) {
+            Unit unit = UnitFactory.createUnit(unitType, 100, 10, 50); // Use UnitFactory to create units
+            if (unit != null) {
+                units.add(unit);
+                gold -= cost;
+                return unit;
+            } else {
+                System.out.println("Unit type not recognized.");
+                return null;
+            }
+        } else {
             System.out.println("Not enough gold.");
             return null;
         }
+    }
 
+    public Turret buyTurret(String turretName, int attack, int cost) {
+        if (gold >= cost && turrets.size() < turretSlots) {
+            Turret turret = new Turret(turretName, attack, cost);
+            turrets.add(turret);
+            gold -= cost;
+            return turret;
+        } else {
+            System.out.println("Not enough gold or turret slots available.");
+            return null;
+        }
     }
 
     public String getName() {
@@ -89,17 +105,5 @@ public class Civilisation extends Game{
 
     public void addUnit(Unit unit) {
         units.add(unit);
-    }
-
-    public Turret buyTurret(String turretName, int attack, int cost) {
-        if (gold >= cost && turrets.size() < turretSlots) {
-            Turret turret = new Turret(turretName, attack, cost);
-            turrets.add(turret);
-            gold -= cost;
-            return turret;
-        } else {
-            System.out.println("Not enough gold or turret slots available.");
-            return null;
-        }
     }
 }
