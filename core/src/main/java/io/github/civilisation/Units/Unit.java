@@ -113,5 +113,4 @@ public abstract class Unit {
             this.takeDamage(other.attackDamage);
         }
     }
-
 }
