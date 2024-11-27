@@ -28,7 +28,7 @@ public class GameWorld {
         addAlliedUnit(new Knight(140, 100));
         addEnemyUnit(new Samurai(600, 100));
 
-        backgroundTexture = new Texture("pictures/bg/Game.png"); // Replace with actual path to your background image
+        backgroundTexture = new Texture("pictures/bg/Game.jpg"); // Replace with actual path to your background image
 
     }
 
@@ -46,11 +46,14 @@ public class GameWorld {
 
         batch.begin();
 
+        batch.draw(backgroundTexture, 0, 0);
+
         updateAndDrawUnits(alliedUnits, enemyUnits);
         updateAndDrawUnits(enemyUnits, alliedUnits);
 
         batch.end();
     }
+
 
     private void updateAndDrawUnits(List<Unit> units, List<Unit> enemyUnits) {
         Iterator<Unit> iterator = units.iterator();
