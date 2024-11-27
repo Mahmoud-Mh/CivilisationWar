@@ -28,7 +28,7 @@ public class Civilisation extends GameWorld {
         this.units = new ArrayList<>();
         this.turrets = new ArrayList<>();
         this.turretSlots = 1;
-        this.hpBase = 5000; // Initial base health
+        this.hpBase = 5000;
     }
 
     public void addGold(int amount) {
@@ -54,17 +54,17 @@ public class Civilisation extends GameWorld {
             this.level += 1;
             this.turretSlots += 1;
             this.hpBase += 2000;
-            this.xp = 0; // Reset XP after leveling up
-            this.xpRequired += 2000; // Increase XP required for next level
+            this.xp = 0;
+            this.xpRequired += 2000;
         }
         if (this.level == 3) {
-            this.hpBase += 4000; // Additional bonus at level 3
+            this.hpBase += 4000;
         }
     }
 
     public Unit buyUnit(String unitType, int cost) {
         if (gold >= cost) {
-            Unit unit = UnitFactory.createUnit(unitType, 100, 10, 50); // Use UnitFactory to create units
+            Unit unit = UnitFactory.createUnit(unitType, 100, 10, 50);
             if (unit != null) {
                 units.add(unit);
                 gold -= cost;
