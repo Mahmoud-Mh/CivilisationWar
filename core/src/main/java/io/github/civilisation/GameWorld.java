@@ -23,7 +23,6 @@ public class GameWorld {
         enemyUnits = new ArrayList<>();
         elapsedTime = 0f;
 
-        // Deploy initial units
         addAlliedUnit(new Knight(140, 100));
         addEnemyUnit(new Samurai(600, 100));
     }
@@ -42,57 +41,50 @@ public class GameWorld {
 
         batch.begin();
 
-        // Update and render allied units
         updateAndDrawUnits(alliedUnits, enemyUnits);
-
-        // Update and render enemy units
         updateAndDrawUnits(enemyUnits, alliedUnits);
 
         batch.end();
     }
 
     private void updateAndDrawUnits(List<Unit> units, List<Unit> enemyUnits) {
-        for (Unit unit : units) {
-            // Vérifie si l'unité est vivante
-            if (unit.isAlive()) {
-                boolean isFighting = false;
+        Iterator<Unit> iterator = units.iterator();
+        while (iterator.hasNext()) {
+            Unit unit = iterator.next();
 
-                // Vérifie les collisions avec les unités ennemies
-                for (Unit enemy : enemyUnits) {
-                    if (enemy.isAlive() && unit.isCollidingWith(enemy)) {
-                        // Les unités s'arrêtent et commencent à se battre
-                        unit.fight(enemy);
-                        isFighting = true;
-                        break; // Stoppe la vérification après avoir trouvé une collision
-                    }
-                }
-
-                if (!isFighting) {
-                    // Si l'unité ne combat pas, elle continue de se déplacer
-                    unit.move();
-                }
-
-                // Dessine l'unité
-                unit.updateAndDraw(batch, elapsedTime, enemyUnits);
+            if (!unit.isAlive()) {
+                iterator.remove();
+                continue;
             }
+
+            boolean isFighting = false;
+
+            for (Unit enemy : enemyUnits) {
+                if (enemy.isAlive() && unit.isCollidingWith(enemy)) {
+                    unit.fight(enemy);
+                    unit.checkCombatStatus(enemy);
+                    isFighting = true;
+                    break;
+                }
+            }
+
+            if (!isFighting) {
+                unit.move();
+            }
+
+            unit.updateAndDraw(batch, elapsedTime, enemyUnits);
         }
     }
 
-
-
-    // Méthode pour libérer toutes les ressources
     public void dispose() {
-        // Libérer le SpriteBatch
         if (batch != null) {
             batch.dispose();
         }
 
-        // Libérer les ressources des unités alliées
         for (Unit unit : alliedUnits) {
             unit.dispose();
         }
 
-        // Libérer les ressources des unités ennemies
         for (Unit unit : enemyUnits) {
             unit.dispose();
         }

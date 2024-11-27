@@ -12,12 +12,13 @@ public abstract class Unit {
     protected int health;
     protected int attackDamage;
     protected boolean isFighting;
-    protected boolean facingRight; // Orientation de l'unité
+    protected boolean facingRight;
     protected UnitType unitType;
     protected Animation<TextureRegion> walkAnimation;
     protected Animation<TextureRegion> attackAnimation;
     protected Texture walkTexture;
     protected Texture attackTexture;
+    private float lastAttackTime = 0;
 
     public enum UnitType {
         MELEE, RANGED, TANK, SPECIAL
@@ -31,34 +32,60 @@ public abstract class Unit {
         this.speed = speed;
         this.unitType = unitType;
         this.isFighting = false;
-        this.facingRight = true; // Par défaut, orienté vers la droite
+        this.facingRight = true;
     }
 
     public abstract void move();
 
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
+        if (isFighting) {
+            boolean stillFighting = false;
+            for (Unit enemy : enemyUnits) {
+                if (this.isCollidingWith(enemy) && enemy.isAlive()) {
+                    stillFighting = true;
+                    break;
+                }
+            }
+            if (!stillFighting) {
+                isFighting = false;
+            }
+        }
+
         TextureRegion currentFrame = isFighting
             ? attackAnimation.getKeyFrame(elapsedTime, true)
             : walkAnimation.getKeyFrame(elapsedTime, true);
 
-        // Gérer l'orientation en fonction de "facingRight"
         if (!facingRight) {
             batch.draw(currentFrame, x + currentFrame.getRegionWidth(), y, -currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
         } else {
             batch.draw(currentFrame, x, y);
         }
+
+
+
     }
 
+
     public void takeDamage(int amount) {
-        this.health -= amount;
+        if (isFighting) {
+            this.health -= amount;
+        }
         if (this.health < 0) {
-            this.health = 0; // Empêche les points de vie négatifs
+            this.health = 0;
         }
     }
+
 
     public boolean isAlive() {
         return this.health > 0;
     }
+    public void checkCombatStatus(Unit other) {
+        if (!this.isAlive() || !other.isAlive() || !this.isCollidingWith(other)) {
+            this.isFighting = false;
+            other.isFighting = false;
+        }
+    }
+
 
     public void dispose() {
         if (walkTexture != null) {
@@ -73,30 +100,18 @@ public abstract class Unit {
         this.facingRight = facingRight;
     }
 
-    // Vérifie si cette unité est en collision avec une autre unité
     public boolean isCollidingWith(Unit other) {
-        // Vérifie si la distance horizontale est inférieure à une marge
-        return Math.abs(this.x - other.x) < 50; // Ajuster la marge selon les besoins
+        return Math.abs(this.x - other.x) < 50;
     }
 
-    // Gère le combat entre cette unité et une autre
     public void fight(Unit other) {
-        if (this.isAlive() && other.isAlive()) {
-            // Les unités s'infligent des dégâts mutuellement
-            other.takeDamage(this.attackDamage);
-            this.takeDamage(other.attackDamage);
-
-            // Les unités passent en mode combat
+        if (this.isCollidingWith(other) && this.isAlive() && other.isAlive()) {
             this.isFighting = true;
             other.isFighting = true;
+
+            other.takeDamage(this.attackDamage);
+            this.takeDamage(other.attackDamage);
         }
     }
 
-    // Arrête le combat si l'unité ou l'adversaire est mort
-    public void stopFighting(Unit other) {
-        if (!this.isAlive() || !other.isAlive()) {
-            this.isFighting = false;
-            other.isFighting = false;
-        }
-    }
 }

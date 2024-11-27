@@ -15,6 +15,19 @@ public class Knight extends Unit {
 
     @Override
     public void move() {
-        this.x += speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+        float previousX = this.x; // Stocke la position avant le mouvement
+        this.x += speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime(); // Déplacement vers la droite
+
+        // Empêche l'unité de sortir de l'écran
+        if (this.x > com.badlogic.gdx.Gdx.graphics.getWidth() - 50) { // Ajuste 50 selon la largeur de l'unité
+            this.x = com.badlogic.gdx.Gdx.graphics.getWidth() - 50;
+        }
+
+        // Si l'unité est bloquée, désactive l'animation de marche
+        if (this.x == previousX) {
+            this.isFighting = false; // Stoppe les animations de combat si elle est bloquée
+        }
     }
+
 }
+

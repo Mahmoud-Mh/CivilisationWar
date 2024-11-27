@@ -20,9 +20,21 @@ public class Samurai extends Unit {
 
     @Override
     public void move() {
-        // Déplacement vers la gauche
-        this.x -= speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+        float previousX = this.x; // Stocke la position avant le mouvement
+        this.x -= speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime(); // Déplacement vers la gauche
+
+        // Empêche l'unité de sortir de l'écran
+        if (this.x < 0) {
+            this.x = 0;
+        }
+
+        // Si l'unité est bloquée, désactive l'animation de marche
+        if (this.x == previousX) {
+            this.isFighting = false; // Stoppe les animations de combat si elle est bloquée
+        }
     }
+
+
     public boolean isCollidingWith(Unit other) {
         // Vérifie si la distance horizontale entre les unités est inférieure à une certaine valeur
         return Math.abs(this.x - other.x) < 50; // 50 est une marge ajustable
