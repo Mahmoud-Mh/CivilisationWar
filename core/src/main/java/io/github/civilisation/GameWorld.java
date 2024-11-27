@@ -1,5 +1,6 @@
 package io.github.civilisation;
 
+import com.badlogic.gdx.graphics.Texture;
 import io.github.civilisation.Units.Unit;
 import io.github.civilisation.Units.Knight;
 import io.github.civilisation.Units.Samurai;
@@ -16,6 +17,7 @@ public class GameWorld {
     private List<Unit> alliedUnits;
     private List<Unit> enemyUnits;
     private float elapsedTime;
+    private Texture backgroundTexture;
 
     public GameWorld() {
         batch = new SpriteBatch();
@@ -25,6 +27,9 @@ public class GameWorld {
 
         addAlliedUnit(new Knight(140, 100));
         addEnemyUnit(new Samurai(600, 100));
+
+        backgroundTexture = new Texture("pictures/bg/Game.png"); // Replace with actual path to your background image
+
     }
 
     public void addAlliedUnit(Unit unit) {
@@ -76,6 +81,8 @@ public class GameWorld {
         }
     }
 
+
+
     public void dispose() {
         if (batch != null) {
             batch.dispose();
@@ -88,5 +95,7 @@ public class GameWorld {
         for (Unit unit : enemyUnits) {
             unit.dispose();
         }
+
+        backgroundTexture.dispose();
     }
 }
