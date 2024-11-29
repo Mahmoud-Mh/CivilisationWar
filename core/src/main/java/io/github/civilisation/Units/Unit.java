@@ -18,7 +18,7 @@ public abstract class Unit {
     protected Animation<TextureRegion> attackAnimation;
     protected Texture walkTexture;
     protected Texture attackTexture;
-    private float lastAttackTime = 0;
+    private float lastAttackTime;
 
     public enum UnitType {
         MELEE, RANGED, TANK, SPECIAL
@@ -35,7 +35,29 @@ public abstract class Unit {
         this.facingRight = true;
     }
 
-    public abstract void move();
+    public void attack(Unit target) {
+        target.takeDamage(this.attackDamage);
+    }
+
+    public void takeDamage(int amount) {
+        if (isAlive()) {
+            this.health -= amount;
+            if (this.health <= 0) {
+                this.health = 0;
+                die();
+            }
+        }
+    }
+
+    private void die() {
+        this.health = 0;
+        this.isFighting = false;
+    }
+
+
+    public void move() {
+        this.x += facingRight ? speed : -speed;
+    }
 
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
         if (isFighting) {
@@ -60,32 +82,39 @@ public abstract class Unit {
         } else {
             batch.draw(currentFrame, x, y);
         }
-
-
-
     }
-
-
-    public void takeDamage(int amount) {
-        if (isFighting) {
-            this.health -= amount;
-        }
-        if (this.health < 0) {
-            this.health = 0;
-        }
-    }
-
 
     public boolean isAlive() {
         return this.health > 0;
     }
+
+    public boolean isCollidingWith(Unit other) {
+        return Math.abs(this.x - other.x) < 50;
+    }
+    public void fight(Unit other) {
+        System.out.println(this + " is fighting " + other);
+        if (this.isCollidingWith(other) && this.isAlive() && other.isAlive()) {
+            if (!this.isFighting && !other.isFighting) {
+                this.isFighting = true;
+                other.isFighting = true;
+                other.takeDamage(this.attackDamage);
+                this.takeDamage(other.attackDamage);
+
+                if (!this.isAlive()) this.isFighting = false;
+                if (!other.isAlive()) other.isFighting = false;
+            }
+        }
+    }
+
+
+
+
     public void checkCombatStatus(Unit other) {
         if (!this.isAlive() || !other.isAlive() || !this.isCollidingWith(other)) {
             this.isFighting = false;
             other.isFighting = false;
         }
     }
-
 
     public void dispose() {
         if (walkTexture != null) {
@@ -98,19 +127,5 @@ public abstract class Unit {
 
     public void setFacingRight(boolean facingRight) {
         this.facingRight = facingRight;
-    }
-
-    public boolean isCollidingWith(Unit other) {
-        return Math.abs(this.x - other.x) < 50;
-    }
-
-    public void fight(Unit other) {
-        if (this.isCollidingWith(other) && this.isAlive() && other.isAlive()) {
-            this.isFighting = true;
-            other.isFighting = true;
-
-            other.takeDamage(this.attackDamage);
-            this.takeDamage(other.attackDamage);
-        }
     }
 }

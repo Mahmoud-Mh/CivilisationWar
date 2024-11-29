@@ -1,11 +1,12 @@
 package io.github.civilisation;
 
-public class Turret extends Civilisation {
+public class Turret {
     private int attack;
     private int cost;
+    private String name;
 
     public Turret(String name, int attack, int cost) {
-        super(name);
+        this.name = name;
         this.attack = attack;
         this.cost = cost;
     }
