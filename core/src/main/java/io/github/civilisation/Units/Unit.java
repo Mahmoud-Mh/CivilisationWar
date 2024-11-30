@@ -18,7 +18,6 @@ public abstract class Unit {
     protected Animation<TextureRegion> attackAnimation;
     protected Texture walkTexture;
     protected Texture attackTexture;
-    private float lastAttackTime;
 
     public enum UnitType {
         MELEE, RANGED, TANK, SPECIAL
@@ -35,6 +34,33 @@ public abstract class Unit {
         this.facingRight = true;
     }
 
+    // Getters and setters for position
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    // Getters for health and fighting status
+    public boolean isAlive() {
+        return this.health > 0;
+    }
+
+    public boolean isFighting() {
+        return isFighting;
+    }
+
+    // Combat mechanics
     public void attack(Unit target) {
         target.takeDamage(this.attackDamage);
     }
@@ -49,16 +75,33 @@ public abstract class Unit {
         }
     }
 
-    private void die() {
-        this.health = 0;
+    protected void die() {
         this.isFighting = false;
+        // Override for specific unit death behavior if needed
     }
 
-
+    // Movement logic
     public void move() {
         this.x += facingRight ? speed : -speed;
     }
 
+    public boolean isCollidingWith(Unit other) {
+        return Math.abs(this.x - other.x) < 50; // Adjust threshold as needed
+    }
+
+    public void fight(Unit other) {
+        if (this.isCollidingWith(other) && this.isAlive() && other.isAlive()) {
+            this.isFighting = true;
+            other.isFighting = true;
+            this.attack(other);
+            other.attack(this);
+
+            if (!this.isAlive()) this.isFighting = false;
+            if (!other.isAlive()) other.isFighting = false;
+        }
+    }
+
+    // Animation and rendering
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
         if (isFighting) {
             boolean stillFighting = false;
@@ -84,38 +127,7 @@ public abstract class Unit {
         }
     }
 
-    public boolean isAlive() {
-        return this.health > 0;
-    }
-
-    public boolean isCollidingWith(Unit other) {
-        return Math.abs(this.x - other.x) < 50;
-    }
-    public void fight(Unit other) {
-        System.out.println(this + " is fighting " + other);
-        if (this.isCollidingWith(other) && this.isAlive() && other.isAlive()) {
-            if (!this.isFighting && !other.isFighting) {
-                this.isFighting = true;
-                other.isFighting = true;
-                other.takeDamage(this.attackDamage);
-                this.takeDamage(other.attackDamage);
-
-                if (!this.isAlive()) this.isFighting = false;
-                if (!other.isAlive()) other.isFighting = false;
-            }
-        }
-    }
-
-
-
-
-    public void checkCombatStatus(Unit other) {
-        if (!this.isAlive() || !other.isAlive() || !this.isCollidingWith(other)) {
-            this.isFighting = false;
-            other.isFighting = false;
-        }
-    }
-
+    // Cleanup
     public void dispose() {
         if (walkTexture != null) {
             walkTexture.dispose();
@@ -125,6 +137,7 @@ public abstract class Unit {
         }
     }
 
+    // Utility
     public void setFacingRight(boolean facingRight) {
         this.facingRight = facingRight;
     }
