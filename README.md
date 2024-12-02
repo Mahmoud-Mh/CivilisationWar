@@ -76,9 +76,9 @@ If you want to explore or modify the codebase:
 
 1. Clone the repository as explained in the [Installation](#installation) section.
 2. The project structure is as follows:
-   - src/: Contains all the source code files. 
-     - core/: Core game logic and mechanics.
-     - ui/: User interface and graphical elements.
+   - core/: Contains all the source code files. 
+     - src/main/: Core game logic and mechanics.
+     - GameWorld.java: User interface and graphical elements.
    - assets/: Game assets such as images, sounds, and fonts.
 3. Run the game locally using your IDE's built-in runner or Gradle.
 4. Tools used:
