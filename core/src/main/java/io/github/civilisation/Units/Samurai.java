@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.List;
 
 public class Samurai extends Unit {
-    private Animation<TextureRegion> deathAnimation; // Death animation
-    private boolean isDying = false; // Tracks if the Samurai is dying
-    private boolean readyToRemove = false; // Tracks if the Samurai is ready to be removed
-    private float stateTime; // Tracks elapsed time for animations
+    private Animation<TextureRegion> deathAnimation;
+    private boolean isDying = false;
+    private boolean readyToRemove = false;
+    private float stateTime;
 
     public Samurai(float x, float y) {
         super(x, y, 100, 30, 50, UnitType.MELEE);
@@ -26,7 +26,7 @@ public class Samurai extends Unit {
 
     @Override
     public void move() {
-        if (isDying) return; // Prevent movement if dying
+        if (isDying) return;
 
         float previousX = this.x;
         this.x -= speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime();
@@ -46,10 +46,10 @@ public class Samurai extends Unit {
             other.takeDamage(this.attackDamage);
             this.takeDamage(other.attackDamage);
 
-            // Check if the Samurai is dead
+
             if (!this.isAlive() && !isDying) {
                 isDying = true;
-                this.stateTime = 0f; // Reset state time for death animation
+                this.stateTime = 0f;
             }
         }
     }
@@ -60,14 +60,14 @@ public class Samurai extends Unit {
 
         TextureRegion currentFrame;
         if (isDying) {
-            currentFrame = deathAnimation.getKeyFrame(stateTime, false); // Play death animation once
+            currentFrame = deathAnimation.getKeyFrame(stateTime, false);
             if (deathAnimation.isAnimationFinished(stateTime)) {
-                readyToRemove = true; // Mark for removal after animation
+                readyToRemove = true;
             }
         } else if (isFighting) {
-            currentFrame = attackAnimation.getKeyFrame(stateTime, true); // Loop attack animation
+            currentFrame = attackAnimation.getKeyFrame(stateTime, true);
         } else {
-            currentFrame = walkAnimation.getKeyFrame(stateTime, true); // Loop walk animation
+            currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
 
         if (!facingRight && !currentFrame.isFlipX()) {

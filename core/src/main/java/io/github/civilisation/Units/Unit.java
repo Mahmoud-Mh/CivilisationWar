@@ -34,7 +34,7 @@ public abstract class Unit {
         this.facingRight = true;
     }
 
-    // Getters and setters for position
+
     public float getX() {
         return x;
     }
@@ -51,7 +51,7 @@ public abstract class Unit {
         this.y = y;
     }
 
-    // Getters for health and fighting status
+
     public boolean isAlive() {
         return this.health > 0;
     }
@@ -60,7 +60,7 @@ public abstract class Unit {
         return isFighting;
     }
 
-    // Combat mechanics
+
     public void attack(Unit target) {
         target.takeDamage(this.attackDamage);
     }
@@ -77,16 +77,15 @@ public abstract class Unit {
 
     protected void die() {
         this.isFighting = false;
-        // Override for specific unit death behavior if needed
+
     }
 
-    // Movement logic
     public void move() {
         this.x += facingRight ? speed : -speed;
     }
 
     public boolean isCollidingWith(Unit other) {
-        return Math.abs(this.x - other.x) < 50; // Adjust threshold as needed
+        return Math.abs(this.x - other.x) < 50;
     }
 
     public void fight(Unit other) {
@@ -101,7 +100,7 @@ public abstract class Unit {
         }
     }
 
-    // Animation and rendering
+
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
         if (isFighting) {
             boolean stillFighting = false;
@@ -127,7 +126,7 @@ public abstract class Unit {
         }
     }
 
-    // Cleanup
+
     public void dispose() {
         if (walkTexture != null) {
             walkTexture.dispose();

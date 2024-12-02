@@ -17,9 +17,9 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
     private Texture backgroundTexture;
     private Texture leftsideTexture;
     private Texture rightsideTexture;
-    private float commonY; // Common Y position for all units
-    private float leftCastleX, rightCastleX; // Positions for castles
-    private float castleY; // Adjusted Y position for castles
+    private float commonY;
+    private float leftCastleX, rightCastleX;
+    private float castleY;
 
     public GameWorld() {
         batch = new SpriteBatch();
@@ -27,26 +27,26 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         enemyUnits = new ArrayList<>();
         elapsedTime = 0f;
 
-        // Common Y position for all units
+
         commonY = 120;
 
-        // Adjusted castle Y position
-        castleY = 100; // Lowered the Y position of castles
 
-        // Fixed castle positions
+        castleY = 100;
+
+
         leftCastleX = -80;
         rightCastleX = 580;
 
-        // Initial Units
-        addAlliedUnit(new Knight(0, commonY)); // Spawns in front of the left castle
-        addEnemyUnit(new Samurai(660, commonY)); // Spawns in front of the right castle
 
-        // Background and castle textures
+        addAlliedUnit(new Knight(0, commonY));
+        addEnemyUnit(new Samurai(660, commonY));
+
+
         backgroundTexture = new Texture("pictures/bg/Game.jpg");
         leftsideTexture = new Texture("pictures/castle/0.png");
-        rightsideTexture = new Texture("fpictures/castle/0.png");
+        rightsideTexture = new Texture("pictures/castle/0.png");
 
-        // Register input processor for keyboard input
+
         com.badlogic.gdx.Gdx.input.setInputProcessor(this);
     }
 
@@ -71,14 +71,14 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
 
         batch.begin();
 
-        // Draw background
+
         batch.draw(backgroundTexture, 0, 10, screenWidth, screenHeight);
 
-        // Draw castles with the adjusted Y position
+
         batch.draw(leftsideTexture, leftCastleX, castleY, castleWidth, castleHeight);
         batch.draw(rightsideTexture, rightCastleX, castleY, castleWidth, castleHeight);
 
-        // Update and draw allied and enemy units
+
         updateAndDrawUnits(alliedUnits, enemyUnits);
         updateAndDrawUnits(enemyUnits, alliedUnits);
 
@@ -146,25 +146,25 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         com.badlogic.gdx.Gdx.app.exit();
     }
 
-    // InputProcessor implementations
+
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
-            // Allied Units (Left Side)
-            case com.badlogic.gdx.Input.Keys.NUM_1: // Knight (Melee)
-                addAlliedUnit(new Knight(0, commonY)); // Spawns near the left castle
+
+            case com.badlogic.gdx.Input.Keys.NUM_1:
+                addAlliedUnit(new Knight(0, commonY));
                 break;
-            case com.badlogic.gdx.Input.Keys.NUM_2: // Wizard (Ranged)
-                addAlliedUnit(new Wizard(0, commonY)); // Spawns near the left castle
+            case com.badlogic.gdx.Input.Keys.NUM_2:
+                addAlliedUnit(new Wizard(0, commonY));
                 break;
 
-            // Enemy Units (Right Side)
-            case com.badlogic.gdx.Input.Keys.C: // Samurai (Melee)
-                addEnemyUnit(new Samurai(660, commonY)); // Spawns near the right castle
+
+            case com.badlogic.gdx.Input.Keys.C:
+                addEnemyUnit(new Samurai(660, commonY));
                 break;
-            case com.badlogic.gdx.Input.Keys.S: // Skeleton (Ranged)
-                addEnemyUnit(new Skeleton(660, commonY)); // Spawns near the right castle
+            case com.badlogic.gdx.Input.Keys.S:
+                addEnemyUnit(new Skeleton(660, commonY));
                 break;
 
             default:
@@ -210,6 +210,6 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false; // Empty implementation
+        return false;
     }
 }

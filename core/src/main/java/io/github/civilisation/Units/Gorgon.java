@@ -13,7 +13,7 @@ public class Gorgon extends Unit {
 
     @Override
     public void move() {
-        // Implémentation du déplacement pour le Gorgon (lent déplacement)
-        this.x -= speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime(); // Déplacement vers la gauche
+
+        this.x -= speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime();
     }
 }
