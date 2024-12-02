@@ -15,36 +15,33 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
     private List<Unit> enemyUnits;
     private float elapsedTime;
     private Texture backgroundTexture;
-    private Texture leftsideTexture;
-    private Texture rightsideTexture;
+    private LeftCastle leftCastle;
+    private RightCastle rightCastle;
     private float commonY; // Common Y position for all units
-    private float leftCastleX, rightCastleX; // Positions for castles
     private float castleY; // Adjusted Y position for castles
 
     public GameWorld() {
         batch = new SpriteBatch();
         alliedUnits = new ArrayList<>();
         enemyUnits = new ArrayList<>();
-        elapsedTime = 0f;
+        elapsedTime = 1f;
 
         // Common Y position for all units
         commonY = 120;
 
         // Adjusted castle Y position
-        castleY = 100; // Lowered the Y position of castles
+        castleY = 100;
 
-        // Fixed castle positions
-        leftCastleX = -80;
-        rightCastleX = 580;
+        // Initialize castles
+        leftCastle = new LeftCastle(-80, castleY, 300, 300, 10000, "pictures/castle/0.png");
+        rightCastle = new RightCastle(580, castleY, 300, 300, 10000, "pictures/castle/0.png");
 
         // Initial Units
         addAlliedUnit(new Knight(0, commonY)); // Spawns in front of the left castle
         addEnemyUnit(new Samurai(660, commonY)); // Spawns in front of the right castle
 
-        // Background and castle textures
-        backgroundTexture = new Texture("assets/pictures/bg/Game.jpg");
-        leftsideTexture = new Texture("assets/pictures/castle/0.png");
-        rightsideTexture = new Texture("assets/pictures/castle/0.png");
+        // Background texture
+        backgroundTexture = new Texture("pictures/bg/Game.jpg");
 
         // Register input processor for keyboard input
         com.badlogic.gdx.Gdx.input.setInputProcessor(this);
@@ -66,50 +63,85 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         float screenWidth = com.badlogic.gdx.Gdx.graphics.getWidth();
         float screenHeight = com.badlogic.gdx.Gdx.graphics.getHeight();
 
-        float castleWidth = 300;
-        float castleHeight = 300;
-
         batch.begin();
 
         // Draw background
         batch.draw(backgroundTexture, 0, 10, screenWidth, screenHeight);
 
-        // Draw castles with the adjusted Y position
-        batch.draw(leftsideTexture, leftCastleX, castleY, castleWidth, castleHeight);
-        batch.draw(rightsideTexture, rightCastleX, castleY, castleWidth, castleHeight);
+        // Draw castles
+        leftCastle.draw(batch);
+        rightCastle.draw(batch);
 
         // Update and draw allied and enemy units
-        updateAndDrawUnits(alliedUnits, enemyUnits);
-        updateAndDrawUnits(enemyUnits, alliedUnits);
+        updateAndDrawUnits(alliedUnits, rightCastle);
+        updateAndDrawUnits(enemyUnits, leftCastle);
 
         batch.end();
     }
 
-    private void updateAndDrawUnits(List<Unit> units, List<Unit> enemyUnits) {
+    private void resolveUnitCollision(Unit unit1, Unit unit2) {
+        float overlap = 50 - Math.abs(unit1.getX() - unit2.getX()); // Assuming a collision threshold of 50
+        if (overlap > 0) {
+            if (unit1.getX() < unit2.getX()) {
+                unit1.setX(unit1.getX() - overlap / 2);
+                unit2.setX(unit2.getX() + overlap / 2);
+            } else {
+                unit1.setX(unit1.getX() + overlap / 2);
+                unit2.setX(unit2.getX() - overlap / 2);
+            }
+        }
+    }
+
+
+    private void updateAndDrawUnits(List<Unit> units, Object targetCastle) {
         Iterator<Unit> iterator = units.iterator();
         while (iterator.hasNext()) {
             Unit unit = iterator.next();
 
-            if (unit instanceof Samurai && ((Samurai) unit).isReadyToRemove()) {
-                iterator.remove();
+            // Resolve collisions with other units in the same list
+            for (Unit otherUnit : units) {
+                if (unit != otherUnit && unit.isCollidingWith(otherUnit)) {
+                    resolveUnitCollision(unit, otherUnit);
+                }
+            }
+
+            // Check collision with the target castle
+            if (targetCastle instanceof LeftCastle && ((LeftCastle) targetCastle).isCollidingWith(unit)) {
+                unit.setIdle(true); // Stop the unit
+                ((LeftCastle) targetCastle).takeDamage(unit.getAttackDamage()); // Damage the castle
+                if (((LeftCastle) targetCastle).isDestroyed()) {
+                    endGame("Enemies");
+                }
+                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>()); // Play idle animation
                 continue;
             }
 
-            if (!unit.isAlive() && !(unit instanceof Samurai)) {
+            if (targetCastle instanceof RightCastle && ((RightCastle) targetCastle).isCollidingWith(unit)) {
+                unit.setIdle(true); // Stop the unit
+                ((RightCastle) targetCastle).takeDamage(unit.getAttackDamage()); // Damage the castle
+                if (((RightCastle) targetCastle).isDestroyed()) {
+                    endGame("Allies");
+                }
+                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>()); // Play idle animation
+                continue;
+            }
+
+            if (!unit.isAlive()) {
                 iterator.remove();
                 continue;
             }
 
             boolean isFighting = false;
 
-            for (Unit enemy : enemyUnits) {
+            // Check collision with enemy units
+            for (Unit enemy : (units == alliedUnits ? enemyUnits : alliedUnits)) {
                 if (enemy.isAlive() && unit.isCollidingWith(enemy)) {
                     unit.fight(enemy);
 
                     if (!enemy.isAlive()) {
-                        enemyUnits.remove(enemy);
+                        (units == alliedUnits ? enemyUnits : alliedUnits).remove(enemy);
                     }
-                    if (!unit.isAlive() && !(unit instanceof Samurai)) {
+                    if (!unit.isAlive()) {
                         iterator.remove();
                     }
 
@@ -122,9 +154,10 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
                 unit.move();
             }
 
-            unit.updateAndDraw(batch, elapsedTime, enemyUnits);
+            unit.updateAndDraw(batch, elapsedTime, units == alliedUnits ? enemyUnits : alliedUnits);
         }
     }
+
 
     public void dispose() {
         if (batch != null) {
@@ -136,8 +169,8 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         for (Unit unit : enemyUnits) {
             unit.dispose();
         }
-        leftsideTexture.dispose();
-        rightsideTexture.dispose();
+        leftCastle.dispose();
+        rightCastle.dispose();
         backgroundTexture.dispose();
     }
 

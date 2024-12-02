@@ -13,6 +13,7 @@ public abstract class Unit {
     protected int attackDamage;
     protected boolean isFighting;
     protected boolean facingRight;
+    protected boolean isIdle = false;
     protected UnitType unitType;
     protected Animation<TextureRegion> walkAnimation;
     protected Animation<TextureRegion> attackAnimation;
@@ -51,13 +52,17 @@ public abstract class Unit {
         this.y = y;
     }
 
-    // Getters for health and fighting status
+    // Getters for health and attack damage
     public boolean isAlive() {
         return this.health > 0;
     }
 
     public boolean isFighting() {
         return isFighting;
+    }
+
+    public int getAttackDamage() {
+        return this.attackDamage;
     }
 
     // Combat mechanics
@@ -82,11 +87,19 @@ public abstract class Unit {
 
     // Movement logic
     public void move() {
+        if (isIdle) {
+            return; // Do not move if the unit is idle
+        }
         this.x += facingRight ? speed : -speed;
     }
 
     public boolean isCollidingWith(Unit other) {
         return Math.abs(this.x - other.x) < 50; // Adjust threshold as needed
+    }
+
+    public boolean isCollidingWith(float otherX, float otherY, float otherWidth, float otherHeight) {
+        return this.x < otherX + otherWidth && this.x + 50 > otherX &&
+            this.y < otherY + otherHeight && this.y + 50 > otherY;
     }
 
     public void fight(Unit other) {
@@ -135,6 +148,18 @@ public abstract class Unit {
         if (attackTexture != null) {
             attackTexture.dispose();
         }
+    }
+
+    // Idle state management
+    public void setIdle(boolean idle) {
+        this.isIdle = idle;
+        if (idle) {
+            this.speed = 0; // Stop movement when idle
+        }
+    }
+
+    public boolean isIdle() {
+        return this.isIdle;
     }
 
     // Utility

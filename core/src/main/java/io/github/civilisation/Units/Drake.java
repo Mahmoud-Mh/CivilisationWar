@@ -13,7 +13,6 @@ public class Drake extends Unit {
 
     @Override
     public void move() {
-        // Implémentation du déplacement pour le Drake
         this.x += speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime(); // Déplacement vers la droite
     }
 }
