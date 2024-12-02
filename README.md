@@ -94,5 +94,6 @@ If you want to explore or modify the codebase:
    - LibGDX: For game development.
    - Java: Core programming language.
    - Gradle: Dependency management.
+5. **UML Diagram** : [Link to UML Diagram](https://lucid.app/lucidchart/e8ddc87b-dfe2-4068-8c71-c3b77e91c07d/edit?invitationId=inv_fd67713f-19a8-48e6-8fc8-d214e3880311&page=0_0#)
 
 
