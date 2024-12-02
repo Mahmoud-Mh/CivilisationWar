@@ -62,8 +62,17 @@ To run the project, ensure the following are installed:
 
 **Controls:**
 
-- **Keyboard:** [Specify keys used for gameplay].
-- **Mouse:** [Describe interactions, such as clicking for actions or dragging units].
+- **Keyboard:** 
+    - **Allied Side**:
+        - Press `1` to deploy a **Melee Unit**.
+        - Press `2` to deploy a **Ranged Unit**.
+        - Press `3` to deploy a **Tank Unit**.
+        - Press `4` to deploy a **Special Unit**.
+    -  - **Enemy Side**:
+    - Press `9` to deploy a **Melee Unit**.
+    - Press `0` to deploy a **Ranged Unit**.
+    - Press `)` to deploy a **Tank Unit**.
+    - Press `=` to deploy a **Special Unit**.
 
 **Objective:**
 
