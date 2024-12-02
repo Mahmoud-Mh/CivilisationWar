@@ -44,7 +44,7 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         // Background and castle textures
         backgroundTexture = new Texture("pictures/bg/Game.jpg");
         leftsideTexture = new Texture("pictures/castle/0.png");
-        rightsideTexture = new Texture("pictures/castle/0.png");
+        rightsideTexture = new Texture("fpictures/castle/0.png");
 
         // Register input processor for keyboard input
         com.badlogic.gdx.Gdx.input.setInputProcessor(this);
