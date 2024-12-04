@@ -13,7 +13,7 @@ public class Samurai extends Unit {
     private float stateTime;
 
     public Samurai(float x, float y) {
-        super(x, y, 800, 10, 50, UnitType.MELEE);
+        super(x, y, 70, 20, 50, UnitType.MELEE);
 
         this.walkAnimation = AnimationFactory.create("pictures/samurai/Samurai/Walk.png", 128, 9, 0.1f);
         this.attackAnimation = AnimationFactory.create("pictures/samurai/Samurai/Attack_1.png", 73, 4, 0.2f);

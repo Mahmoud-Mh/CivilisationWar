@@ -13,7 +13,7 @@ public class Knight extends Unit {
     private float stateTime;
 
     public Knight(float x, float y) {
-        super(x, y, 800, 50, 40, UnitType.MELEE); // 800 HP, 50 attack damage, 40 speed
+        super(x, y, 80, 20, 40, UnitType.MELEE); // 800 HP, 50 attack damage, 40 speed
 
         // Initialize animations
         this.walkAnimation = AnimationFactory.create("pictures/Knight/Knight_1/Walk.png", 73, 5, 0.1f);

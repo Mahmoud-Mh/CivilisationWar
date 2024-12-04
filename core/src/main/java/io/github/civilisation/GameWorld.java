@@ -36,10 +36,6 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         leftCastle = new LeftCastle(-80, castleY, 300, 300, 10000, "pictures/castle/0.png");
         rightCastle = new RightCastle(580, castleY, 300, 300, 10000, "pictures/castle/0.png");
 
-        // Initial Units
-        addAlliedUnit(new Knight(0, commonY)); // Spawns in front of the left castle
-        addEnemyUnit(new Samurai(660, commonY)); // Spawns in front of the right castle
-
         // Background texture
         backgroundTexture = new Texture("pictures/bg/Game.jpg");
 
@@ -91,7 +87,6 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
             }
         }
     }
-
 
     private void updateAndDrawUnits(List<Unit> units, Object targetCastle) {
         Iterator<Unit> iterator = units.iterator();
@@ -158,7 +153,6 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         }
     }
 
-
     public void dispose() {
         if (batch != null) {
             batch.dispose();
@@ -186,18 +180,32 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         switch (keycode) {
             // Allied Units (Left Side)
             case com.badlogic.gdx.Input.Keys.NUM_1: // Knight (Melee)
-                addAlliedUnit(new Knight(0, commonY)); // Spawns near the left castle
+                addAlliedUnit(new Knight(0, commonY)); // Spawn Knight only when commanded
                 break;
             case com.badlogic.gdx.Input.Keys.NUM_2: // Wizard (Ranged)
-                addAlliedUnit(new Wizard(0, commonY)); // Spawns near the left castle
+                addAlliedUnit(new Wizard(0, commonY)); // Spawn Wizard only when commanded
+                break;
+            case com.badlogic.gdx.Input.Keys.NUM_3: // Gorgon (Tank)
+                addAlliedUnit(new Gorgon(0, commonY)); // Spawn Gorgon only when commanded
+                break;
+            case com.badlogic.gdx.Input.Keys.NUM_4: // Drake (Special)
+                addAlliedUnit(new Drake(0, commonY)); // Spawn Drake only when commanded
                 break;
 
             // Enemy Units (Right Side)
-            case com.badlogic.gdx.Input.Keys.C: // Samurai (Melee)
-                addEnemyUnit(new Samurai(660, commonY)); // Spawns near the right castle
+            case com.badlogic.gdx.Input.Keys.U: // Samurai (Melee)
+                addEnemyUnit(new Samurai(660, commonY)); // Spawn Samurai only when commanded
                 break;
-            case com.badlogic.gdx.Input.Keys.S: // Skeleton (Ranged)
-                addEnemyUnit(new Skeleton(660, commonY)); // Spawns near the right castle
+            case com.badlogic.gdx.Input.Keys.I: // Skeleton (Ranged)
+                addEnemyUnit(new Skeleton(660, commonY)); // Spawn Skeleton only when commanded
+                break;
+
+            case com.badlogic.gdx.Input.Keys.O: // Yokai (Ranged)
+                addEnemyUnit(new Yokai(660, commonY)); // Spawn Skeleton only when commanded
+                break;
+
+            case com.badlogic.gdx.Input.Keys.P: // Werewolf (Ranged)
+                addEnemyUnit(new WereWolf(660, commonY)); // Spawn Skeleton only when commanded
                 break;
 
             default:
