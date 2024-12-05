@@ -8,7 +8,7 @@ public class LeftCastle {
     private int health;
     private Texture texture;
     private boolean destroyed;
-    private float collisionOffsetX; // Offset for adjusting collision area
+    private float collisionOffsetX;
 
     public LeftCastle(float x, float y, float width, float height, int health, String texturePath) {
         this.x = x;
@@ -19,12 +19,12 @@ public class LeftCastle {
         this.texture = new Texture(texturePath);
         this.destroyed = false;
 
-        // Adjust the collision area based on the castle's actual alignment
-        this.collisionOffsetX = -80; // Perfect collision offset
+
+        this.collisionOffsetX = -80;
     }
 
     public boolean isCollidingWith(Unit unit) {
-        // Check if the unit's bounding box intersects with the adjusted castle area
+
         return unit.getX() + 50 > x + collisionOffsetX &&
             unit.getX() < x + width + collisionOffsetX &&
             unit.getY() + 50 > y &&

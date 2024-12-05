@@ -8,7 +8,7 @@ public class RightCastle {
     private int health;
     private Texture texture;
     private boolean destroyed;
-    private float collisionOffsetX; // Offset for adjusting collision area
+    private float collisionOffsetX;
 
     public RightCastle(float x, float y, float width, float height, int health, String texturePath) {
         this.x = x;
@@ -19,12 +19,12 @@ public class RightCastle {
         this.texture = new Texture(texturePath);
         this.destroyed = false;
 
-        // Adjust the collision area for the right castle
-        this.collisionOffsetX = 80; // Positive value to shift collision point to the right
+
+        this.collisionOffsetX = 80;
     }
 
     public boolean isCollidingWith(Unit unit) {
-        // Adjust collision logic using collisionOffsetX
+
         return unit.getX() + 50 > x + collisionOffsetX &&
             unit.getX() < x + width + collisionOffsetX &&
             unit.getY() + 50 > y &&

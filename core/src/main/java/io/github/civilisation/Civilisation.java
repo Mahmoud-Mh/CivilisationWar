@@ -38,7 +38,7 @@ public class Civilisation extends GameWorld {
     }
 
     public void deployUnits() {
-        // Placeholder for deploying units logic
+
     }
 
     public void useUniqueAbility(List<Unit> enemyUnits) {

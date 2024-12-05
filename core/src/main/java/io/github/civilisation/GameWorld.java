@@ -17,8 +17,8 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
     private Texture backgroundTexture;
     private LeftCastle leftCastle;
     private RightCastle rightCastle;
-    private float commonY; // Common Y position for all units
-    private float castleY; // Adjusted Y position for castles
+    private float commonY;
+    private float castleY;
 
     public GameWorld() {
         batch = new SpriteBatch();
@@ -26,20 +26,20 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         enemyUnits = new ArrayList<>();
         elapsedTime = 1f;
 
-        // Common Y position for all units
+
         commonY = 120;
 
-        // Adjusted castle Y position
+
         castleY = 100;
 
-        // Initialize castles
+
         leftCastle = new LeftCastle(-80, castleY, 300, 300, 10000, "pictures/castle/0.png");
         rightCastle = new RightCastle(580, castleY, 300, 300, 10000, "pictures/castle/0.png");
 
-        // Background texture
+
         backgroundTexture = new Texture("pictures/bg/Game.jpg");
 
-        // Register input processor for keyboard input
+
         com.badlogic.gdx.Gdx.input.setInputProcessor(this);
     }
 
@@ -61,14 +61,14 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
 
         batch.begin();
 
-        // Draw background
+
         batch.draw(backgroundTexture, 0, 10, screenWidth, screenHeight);
 
-        // Draw castles
+
         leftCastle.draw(batch);
         rightCastle.draw(batch);
 
-        // Update and draw allied and enemy units
+
         updateAndDrawUnits(alliedUnits, rightCastle);
         updateAndDrawUnits(enemyUnits, leftCastle);
 
@@ -76,7 +76,7 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
     }
 
     private void resolveUnitCollision(Unit unit1, Unit unit2) {
-        float overlap = 50 - Math.abs(unit1.getX() - unit2.getX()); // Assuming a collision threshold of 50
+        float overlap = 50 - Math.abs(unit1.getX() - unit2.getX());
         if (overlap > 0) {
             if (unit1.getX() < unit2.getX()) {
                 unit1.setX(unit1.getX() - overlap / 2);
@@ -93,31 +93,31 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         while (iterator.hasNext()) {
             Unit unit = iterator.next();
 
-            // Resolve collisions with other units in the same list
+
             for (Unit otherUnit : units) {
                 if (unit != otherUnit && unit.isCollidingWith(otherUnit)) {
                     resolveUnitCollision(unit, otherUnit);
                 }
             }
 
-            // Check collision with the target castle
+
             if (targetCastle instanceof LeftCastle && ((LeftCastle) targetCastle).isCollidingWith(unit)) {
-                unit.setIdle(true); // Stop the unit
-                ((LeftCastle) targetCastle).takeDamage(unit.getAttackDamage()); // Damage the castle
+                unit.setIdle(true);
+                ((LeftCastle) targetCastle).takeDamage(unit.getAttackDamage());
                 if (((LeftCastle) targetCastle).isDestroyed()) {
                     endGame("Enemies");
                 }
-                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>()); // Play idle animation
+                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>());
                 continue;
             }
 
             if (targetCastle instanceof RightCastle && ((RightCastle) targetCastle).isCollidingWith(unit)) {
                 unit.setIdle(true); // Stop the unit
-                ((RightCastle) targetCastle).takeDamage(unit.getAttackDamage()); // Damage the castle
+                ((RightCastle) targetCastle).takeDamage(unit.getAttackDamage());
                 if (((RightCastle) targetCastle).isDestroyed()) {
                     endGame("Allies");
                 }
-                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>()); // Play idle animation
+                unit.updateAndDraw(batch, elapsedTime, new ArrayList<>());
                 continue;
             }
 
@@ -128,7 +128,7 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
 
             boolean isFighting = false;
 
-            // Check collision with enemy units
+
             for (Unit enemy : (units == alliedUnits ? enemyUnits : alliedUnits)) {
                 if (enemy.isAlive() && unit.isCollidingWith(enemy)) {
                     unit.fight(enemy);
@@ -173,39 +173,38 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         com.badlogic.gdx.Gdx.app.exit();
     }
 
-    // InputProcessor implementations
+
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
-            // Allied Units (Left Side)
-            case com.badlogic.gdx.Input.Keys.NUM_1: // Knight (Melee)
-                addAlliedUnit(new Knight(0, commonY)); // Spawn Knight only when commanded
+            case com.badlogic.gdx.Input.Keys.NUM_1:
+                addAlliedUnit(new Knight(0, commonY));
                 break;
-            case com.badlogic.gdx.Input.Keys.NUM_2: // Wizard (Ranged)
-                addAlliedUnit(new Wizard(0, commonY)); // Spawn Wizard only when commanded
+            case com.badlogic.gdx.Input.Keys.NUM_2:
+                addAlliedUnit(new Wizard(0, commonY));
                 break;
-            case com.badlogic.gdx.Input.Keys.NUM_3: // Gorgon (Tank)
-                addAlliedUnit(new Gorgon(0, commonY)); // Spawn Gorgon only when commanded
+            case com.badlogic.gdx.Input.Keys.NUM_3:
+                addAlliedUnit(new Gorgon(0, commonY));
                 break;
-            case com.badlogic.gdx.Input.Keys.NUM_4: // Drake (Special)
-                addAlliedUnit(new Drake(0, commonY)); // Spawn Drake only when commanded
-                break;
-
-            // Enemy Units (Right Side)
-            case com.badlogic.gdx.Input.Keys.U: // Samurai (Melee)
-                addEnemyUnit(new Samurai(660, commonY)); // Spawn Samurai only when commanded
-                break;
-            case com.badlogic.gdx.Input.Keys.I: // Skeleton (Ranged)
-                addEnemyUnit(new Skeleton(660, commonY)); // Spawn Skeleton only when commanded
+            case com.badlogic.gdx.Input.Keys.NUM_4:
+                addAlliedUnit(new Drake(0, commonY));
                 break;
 
-            case com.badlogic.gdx.Input.Keys.O: // Yokai (Ranged)
-                addEnemyUnit(new Yokai(660, commonY)); // Spawn Skeleton only when commanded
+
+            case com.badlogic.gdx.Input.Keys.U:
+                addEnemyUnit(new Samurai(660, commonY));
+                break;
+            case com.badlogic.gdx.Input.Keys.I:
+                addEnemyUnit(new Skeleton(660, commonY));
                 break;
 
-            case com.badlogic.gdx.Input.Keys.P: // Werewolf (Ranged)
-                addEnemyUnit(new WereWolf(660, commonY)); // Spawn Skeleton only when commanded
+            case com.badlogic.gdx.Input.Keys.O:
+                addEnemyUnit(new Yokai(660, commonY));
+                break;
+
+            case com.badlogic.gdx.Input.Keys.P:
+                addEnemyUnit(new WereWolf(660, commonY));
                 break;
 
             default:
@@ -251,6 +250,6 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false; // Empty implementation
+        return false;
     }
 }

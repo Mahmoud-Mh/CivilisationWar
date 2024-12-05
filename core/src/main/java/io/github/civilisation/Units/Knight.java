@@ -21,24 +21,24 @@ public class Knight extends Unit {
         this.deathAnimation = AnimationFactory.create("pictures/Knight/Knight_1/Dead.png", 73, 5, 0.15f);
 
         this.stateTime = 0f;
-        this.setFacingRight(true); // Knight typically moves right by default
+        this.setFacingRight(true);
     }
 
     @Override
     public void move() {
-        if (isDying) return; // No movement if the Knight is dying
+        if (isDying) return;
 
-        float previousX = this.x; // Store the position before moving
-        this.x += speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime(); // Move to the right
+        float previousX = this.x;
+        this.x += speed * com.badlogic.gdx.Gdx.graphics.getDeltaTime();
 
-        // Prevent the unit from going off-screen
-        if (this.x > com.badlogic.gdx.Gdx.graphics.getWidth() - 50) { // Adjust 50 based on unit width
+
+        if (this.x > com.badlogic.gdx.Gdx.graphics.getWidth() - 50) {
             this.x = com.badlogic.gdx.Gdx.graphics.getWidth() - 50;
         }
 
-        // If the unit didn't move, stop walking animation
+
         if (this.x == previousX) {
-            this.isFighting = false; // Stop fighting if the unit is stuck
+            this.isFighting = false;
         }
     }
 
@@ -46,10 +46,10 @@ public class Knight extends Unit {
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
         stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
 
-        // Reset fighting state
+
         isFighting = false;
 
-        // Check for collisions with enemies
+
         for (Unit enemy : enemyUnits) {
             if (enemy.isAlive() && this.isCollidingWith(enemy)) {
                 isFighting = true;
@@ -57,7 +57,7 @@ public class Knight extends Unit {
             }
         }
 
-        // Determine the current animation frame based on the state
+
         TextureRegion currentFrame;
         if (isDying) {
             currentFrame = deathAnimation.getKeyFrame(stateTime, false);
@@ -70,14 +70,14 @@ public class Knight extends Unit {
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
 
-        // Flip the frame if needed based on the direction the Knight is facing
+
         if (!facingRight && !currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         } else if (facingRight && currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         }
 
-        // Draw the current frame
+
         batch.draw(currentFrame, x, y, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
@@ -88,6 +88,6 @@ public class Knight extends Unit {
     @Override
     protected void die() {
         isDying = true;
-        stateTime = 0f; // Reset animation timer for death animation
+        stateTime = 0f;
     }
 }

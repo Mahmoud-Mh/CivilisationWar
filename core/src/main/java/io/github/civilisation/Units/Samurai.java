@@ -33,7 +33,7 @@ public class Samurai extends Unit {
     public void updateAndDraw(SpriteBatch batch, float elapsedTime, List<Unit> enemyUnits) {
         stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
 
-        // Check if Samurai is still fighting any enemies
+
         isFighting = false;
         for (Unit enemy : enemyUnits) {
             if (enemy.isAlive() && this.isCollidingWith(enemy)) {
@@ -42,7 +42,7 @@ public class Samurai extends Unit {
             }
         }
 
-        // Determine the current animation frame based on the state
+
         TextureRegion currentFrame;
         if (isDying) {
             currentFrame = deathAnimation.getKeyFrame(stateTime, false);
@@ -55,14 +55,14 @@ public class Samurai extends Unit {
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
 
-        // Flip the frame if needed based on the direction the Samurai is facing
+
         if (!facingRight && !currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         } else if (facingRight && currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         }
 
-        // Draw the current frame
+
         batch.draw(currentFrame, x, y, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
