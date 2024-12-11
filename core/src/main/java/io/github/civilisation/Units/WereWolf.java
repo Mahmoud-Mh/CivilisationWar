@@ -16,9 +16,9 @@ public class WereWolf extends Unit {
         super(x, y, 300, 100, 40, UnitType.TANK);
 
 
-        this.walkAnimation = AnimationFactory.create("assets/pictures/wereWolf/black/walk.png", 128, 11, 0.1f);
-        this.attackAnimation = AnimationFactory.create("assets/pictures/wereWolf/black/Attack_2.png", 128, 4, 0.2f);
-        this.deathAnimation = AnimationFactory.create("assets/pictures/wereWolf/black/Dead.png", 128, 2, 0.15f);
+        this.walkAnimation = AnimationFactory.create("pictures/wereWolf/black/walk.png", 128, 11, 0.1f);
+        this.attackAnimation = AnimationFactory.create("pictures/wereWolf/black/Attack_2.png", 128, 4, 0.2f);
+        this.deathAnimation = AnimationFactory.create("pictures/wereWolf/black/Dead.png", 128, 2, 0.15f);
 
         this.stateTime = 0f;
         this.setFacingRight(false);

@@ -1,7 +1,9 @@
 package io.github.civilisation;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.civilisation.Units.*;
 
@@ -51,29 +53,29 @@ public class GameWorld implements com.badlogic.gdx.InputProcessor {
         enemyUnits.add(unit);
     }
 
-    public void updateAndRender() {
-        elapsedTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
 
+    public void updateAndRender() {elapsedTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+
+        // Effacer l'écran
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         float screenWidth = com.badlogic.gdx.Gdx.graphics.getWidth();
         float screenHeight = com.badlogic.gdx.Gdx.graphics.getHeight();
 
+
         batch.begin();
-
-
         batch.draw(backgroundTexture, 0, 10, screenWidth, screenHeight);
-
-
         leftCastle.draw(batch);
         rightCastle.draw(batch);
-
-
         updateAndDrawUnits(alliedUnits, rightCastle);
         updateAndDrawUnits(enemyUnits, leftCastle);
-
         batch.end();
+
+        leftCastle.drawHealthBar();
+        rightCastle.drawHealthBar();
     }
+
+
 
     private void resolveUnitCollision(Unit unit1, Unit unit2) {
         float overlap = 50 - Math.abs(unit1.getX() - unit2.getX());

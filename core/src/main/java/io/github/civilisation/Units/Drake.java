@@ -16,9 +16,9 @@ public class Drake extends Unit {
         super(x, y, 200, 100, 30, UnitType.SPECIAL);
 
 
-        this.walkAnimation = AnimationFactory.create("assets/pictures/yokai/Kitsune/Walk.png", 128, 8, 0.1f);
-        this.attackAnimation = AnimationFactory.create("assets/pictures/yokai/Kitsune/Attack_3.png", 128, 7, 0.2f);
-        this.deathAnimation = AnimationFactory.create("assets/pictures/yokai/Kitsune/Dead.png", 128, 10, 0.15f);
+        this.walkAnimation = AnimationFactory.create("pictures/yokai/Kitsune/Walk.png", 128, 8, 0.1f);
+        this.attackAnimation = AnimationFactory.create("pictures/yokai/Kitsune/Attack_3.png", 128, 7, 0.2f);
+        this.deathAnimation = AnimationFactory.create("pictures/yokai/Kitsune/Dead.png", 128, 10, 0.15f);
 
         this.stateTime = 0f;
         this.setFacingRight(true);

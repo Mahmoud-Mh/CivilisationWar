@@ -16,9 +16,9 @@ public class Skeleton extends Unit {
         super(x, y, 70, 20, 40, UnitType.RANGED); // 70 HP, 20 Attack Damage, 40 Speed
 
         // Initialize animations
-        this.walkAnimation = AnimationFactory.create("assets/pictures/skeleton/Skeleton1/Walk.png", 128, 7, 0.1f);
-        this.attackAnimation = AnimationFactory.create("assets/pictures/skeleton/Skeleton1/Attack_3.png", 128, 4, 0.2f);
-        this.deathAnimation = AnimationFactory.create("assets/pictures/skeleton/Skeleton1/Dead.png", 128, 4, 0.15f);
+        this.walkAnimation = AnimationFactory.create("pictures/skeleton/Skeleton1/Walk.png", 128, 7, 0.1f);
+        this.attackAnimation = AnimationFactory.create("pictures/skeleton/Skeleton1/Attack_3.png", 128, 4, 0.2f);
+        this.deathAnimation = AnimationFactory.create("pictures/skeleton/Skeleton1/Dead.png", 128, 4, 0.15f);
 
         this.stateTime = 0f;
         this.setFacingRight(false);

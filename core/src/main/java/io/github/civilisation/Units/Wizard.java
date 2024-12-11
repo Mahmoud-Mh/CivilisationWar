@@ -16,9 +16,9 @@ public class Wizard extends Unit {
         super(x, y, 60, 30, 30, UnitType.RANGED);
 
 
-        this.walkAnimation = AnimationFactory.create("assets/pictures/wizard/Fire wizard/Walk.png", 128, 6, 0.1f);
-        this.attackAnimation = AnimationFactory.create("assets/pictures/wizard/Fire wizard/Attack_1.png", 128, 4, 0.2f);
-        this.deathAnimation = AnimationFactory.create("assets/pictures/wizard/Fire wizard/Dead.png", 128, 6, 0.15f);
+        this.walkAnimation = AnimationFactory.create("pictures/wizard/Fire wizard/Walk.png", 128, 6, 0.1f);
+        this.attackAnimation = AnimationFactory.create("pictures/wizard/Fire wizard/Attack_1.png", 128, 4, 0.2f);
+        this.deathAnimation = AnimationFactory.create("pictures/wizard/Fire wizard/Dead.png", 128, 6, 0.15f);
 
         this.stateTime = 0f;
         this.setFacingRight(true);

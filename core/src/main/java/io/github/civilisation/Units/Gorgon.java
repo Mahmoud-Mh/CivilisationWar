@@ -16,9 +16,9 @@ public class Gorgon extends Unit {
         super(x, y, 300, 80, 20, UnitType.TANK);
 
 
-        this.walkAnimation = AnimationFactory.create("assets/pictures/gorgon/Gorgon_1/Walk.png", 128, 13, 0.1f);
-        this.attackAnimation = AnimationFactory.create("assets/pictures/gorgon/Gorgon_1/Attack_2.png", 128, 7, 0.2f);
-        this.deathAnimation = AnimationFactory.create("assets/pictures/gorgon/Gorgon_1/Dead.png", 128, 3, 0.15f);
+        this.walkAnimation = AnimationFactory.create("pictures/gorgon/Gorgon_1/Walk.png", 128, 13, 0.1f);
+        this.attackAnimation = AnimationFactory.create("pictures/gorgon/Gorgon_1/Attack_2.png", 128, 7, 0.2f);
+        this.deathAnimation = AnimationFactory.create("pictures/gorgon/Gorgon_1/Dead.png", 128, 3, 0.15f);
 
         this.stateTime = 0f;
         this.setFacingRight(true);
