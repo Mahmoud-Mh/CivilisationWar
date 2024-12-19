@@ -1,4 +1,4 @@
-# CivilisationWar
+# CivilisationWar | For learning purposes to discover Java 
 
 CivilisationWar is a 2D strategy game where players choose and develop civilizations, manage resources, deploy units, and battle against AI or other players. The game features diverse civilizations, each with unique abilities and strategic paths.
 
